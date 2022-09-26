@@ -16,15 +16,22 @@ DATA = {
         'сыр, ломтик': 1,
         'помидор, ломтик': 1,
     },
-    # можете добавить свои рецепты ;)
+    'soup': {
+        'мясные фрикадельки, кг': 0.2,
+        'картофель, кг': 0.3,
+        'кабачок, кг': 0.3,
+        'помидор, шт': 0.5,
+        'морковь, кг': 0.1,
+        'лук, кг': 0.1,
+        'болгарский перец': 0.1,
+        'соль, ч.л.': 0.5
+    },
 }
 
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+def calculate_recipy(request, dish):
+    needed_recipy = DATA.get(dish, {})
+    persons = int(request.GET.get('servings', 1))
+    context = {'recipe': {}}
+    for name, quantity in needed_recipy.items():
+        context['recipe'][name] = round(quantity * persons, 2)
+    return render(request, 'calculator/index.html', context)

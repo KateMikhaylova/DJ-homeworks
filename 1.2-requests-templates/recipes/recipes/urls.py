@@ -16,6 +16,8 @@ Including another URLconf
 
 from django.urls import path
 
+from calculator.views import calculate_recipy
+
 urlpatterns = [
-    # здесь зарегистрируйте вашу view-функцию
+    path('<str:dish>/', calculate_recipy, name='recipy')
 ]

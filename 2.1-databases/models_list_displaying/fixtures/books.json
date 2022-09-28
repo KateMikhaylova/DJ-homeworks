@@ -16,5 +16,96 @@
       "author": "Джордж Оруэл",
       "pub_date": "2016-12-06"
     }
+  },
+  {
+    "model": "books.book",
+    "pk": 3,
+    "fields": {
+      "name": "Пространство откровения",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-01"
+    }
+  }
+  ,
+  {
+    "model": "books.book",
+    "pk": 4,
+    "fields": {
+      "name": "Ковчег спасения",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-01"
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 5,
+    "fields": {
+      "name": "Пропасть искупления",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-02"
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 6,
+    "fields": {
+      "name": "Город бездны",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-02"
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 7,
+    "fields": {
+      "name": "Дождь забвения",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-03"
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 8,
+    "fields": {
+      "name": "Префект",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-04"
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 9,
+    "fields": {
+      "name": "Обреченный мир",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-05"
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 10,
+    "fields": {
+      "name": "Алмазные псы",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-06"
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 11,
+    "fields": {
+      "name": "Великая стена Марса",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-07"
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 12,
+    "fields": {
+      "name": "Звездный лед",
+      "author": "Аластер Рейнольдс",
+      "pub_date": "2022-09-08"
+    }
   }
 ]

@@ -14,7 +14,7 @@ Content-Type: application/json
 ###
 
 # получение продуктов
-GET {{baseUrl}}/products/
+GET {{baseUrl}}/products/?limit=2&offset=3
 Content-Type: application/json
 
 ###
@@ -87,3 +87,17 @@ Content-Type: application/json
 # поиск складов, где есть определенный продукт
 GET {{baseUrl}}/stocks/?products=2
 Content-Type: application/json
+
+###
+
+# просмотр складов
+GET {{baseUrl}}/stocks/?products=6
+Content-Type: application/json
+
+###
+
+# поиск складов, где есть определенный продукт
+GET {{baseUrl}}/stocks/?search=яйцо
+Content-Type: application/json
+
+

@@ -1,29 +1,254 @@
 # примеры API-запросов
 
-@baseUrl = https://localhost:8000/api
+@baseUrl = http://localhost:8000/api
 
-# получение объявлений
+###
+
+# создание объявления firstadmin (usual user)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+{
+  "title": "Тарелка",
+  "description": "Белая"
+}
+
+###
+
+# создание объявления firstadmin (usual user)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+{
+  "title": "Тарелка",
+  "description": "Синяя",
+  "status": "CLOSED"
+}
+
+###
+
+# создание объявления firstadmin (usual user)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+{
+  "title": "Тарелка",
+  "description": "Красная",
+  "status": "DRAFT"
+}
+
+###
+
+# создание объявления secondadmin (usual user)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token d20da5fccee243fabb507dbf88c5f3013dee3335
+
+{
+  "title": "Книга",
+  "description": "Про медведя"
+}
+
+###
+
+# создание объявления secondadmin (usual user)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token d20da5fccee243fabb507dbf88c5f3013dee3335
+
+{
+  "title": "Книга",
+  "description": "Про зайца",
+  "status": "CLOSED"
+}
+
+###
+
+# создание объявления secondadmin (usual user)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token d20da5fccee243fabb507dbf88c5f3013dee3335
+
+{
+  "title": "Книга",
+  "description": "Про волка",
+  "status": "DRAFT"
+}
+
+###
+
+# создание объявления thirdadmin (admin user)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4
+
+{
+  "title": "Телефон",
+  "description": "Iphone"
+}
+
+###
+
+# создание объявления thirdadmin (admin user)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4
+
+{
+  "title": "Телефон",
+  "description": "Samsung",
+  "status": "CLOSED"
+}
+
+###
+
+# создание объявления thirdadmin (admin user)
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4
+
+{
+  "title": "Телефон",
+  "description": "Sony",
+  "status": "DRAFT"
+}
+
+###
+
+# создание объявления неправильный токен
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc
+
+{
+  "title": "Телефон",
+  "description": "Sony",
+  "status": "DRAFT"
+}
+
+###
+
+# создание объявления без токена
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+
+{
+  "title": "Телефон",
+  "description": "Sony",
+  "status": "DRAFT"
+}
+
+
+###
+
+# получение объявлений неавторизованный пользователь (не видно ничьи драфты)
 GET {{baseUrl}}/advertisements/
 Content-Type: application/json
 
 ###
 
-# создание объявления
-POST {{baseUrl}}/advertisements/
+# получение объявления неавторизованный пользователь
+GET {{baseUrl}}/advertisements/1/
 Content-Type: application/json
-Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
-
-{
-  "title": "Шкаф IKEA",
-  "description": "Срочно"
-}
 
 ###
 
-# попытка поменять объявление
+# получение объявления неавторизованный пользователь (драфт - ошибка)
+GET {{baseUrl}}/advertisements/3/
+Content-Type: application/json
+
+###
+
+# получение объявлений firstadmin (usual user) (видно свои драфты)
+GET {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+###
+
+# получение объявления firstadmin (usual user)
+GET {{baseUrl}}/advertisements/1/
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+###
+
+# получение объявления firstadmin (usual user) (свой драфт)
+GET {{baseUrl}}/advertisements/3/
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+###
+
+# получение объявления firstadmin (usual user) (чужой драфт - ошибка)
+GET {{baseUrl}}/advertisements/6/
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+###
+
+# фильтрация по дате
+GET {{baseUrl}}/advertisements/?created_at_before=2022-02-02
+Content-Type: application/json
+
+###
+
+# фильтрация по дате
+GET {{baseUrl}}/advertisements/?created_at_after=2022-10-02
+Content-Type: application/json
+
+###
+
+# фильтрация по дате
+GET {{baseUrl}}/advertisements/?created_at_after=2022-02-02&created_at_before=2022-10-02
+Content-Type: application/json
+
+###
+
+# фильтрация по статусу
+GET {{baseUrl}}/advertisements/?status=OPEN
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+###
+
+# фильтрация по статусу
+GET {{baseUrl}}/advertisements/?status=CLOSED
+Content-Type: application/json
+
+
+###
+
+# фильтрация по статусу
+GET {{baseUrl}}/advertisements/?status=DRAFT
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+###
+
+# фильтрация по создателю
+GET {{baseUrl}}/advertisements/?creator=1
+Content-Type: application/json
+
+###
+
+# фильтрация по создателю
+GET {{baseUrl}}/advertisements/?creator=1
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+
+
+
+###
+
+# попытка поменять свое обьявление
 PATCH {{baseUrl}}/advertisements/1/
 Content-Type: application/json
-Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
 
 {
   "status": "CLOSED"
@@ -31,12 +256,89 @@ Authorization: Token 902ef055a9ac93f18327f1f9c45ab059f1a62c7d
 
 ###
 
-# фильтрация по создателю
-GET {{baseUrl}}/advertisements/?creator=3
+# попытка поменять чужое обьявление
+PATCH {{baseUrl}}/advertisements/4/
 Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+{
+  "status": "CLOSED"
+}
 
 ###
 
-# фильтрация по дате
-GET {{baseUrl}}/advertisements/?created_at_before=2020-10-01
+# попытка поменять объявление без токена
+PATCH {{baseUrl}}/advertisements/1/
 Content-Type: application/json
+
+{
+  "status": "CLOSED"
+}
+
+###
+
+# попытка поменять чужое обьявление (админ)
+PATCH {{baseUrl}}/advertisements/4/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4
+
+{
+  "status": "CLOSED"
+}
+
+###
+
+# попытка удалить свое обьявление
+DELETE {{baseUrl}}/advertisements/1/
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+###
+
+# попытка удалить чужое обьявление
+DELETE {{baseUrl}}/advertisements/4/
+Content-Type: application/json
+Authorization: Token e6123d9280c2dc8935e9ae7ef596ea130757a016
+
+###
+
+# попытка удалить чужое обьявление (админ)
+DELETE {{baseUrl}}/advertisements/4/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4
+
+
+###
+
+# попытка добавить свое обьявление в избранное
+POST {{baseUrl}}/advertisements/7/add_to_favourite/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4
+
+###
+
+# попытка добавить чужое обьявление в избранное
+POST {{baseUrl}}/advertisements/2/add_to_favourite/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4
+
+###
+
+# посмотреть свои избранные
+GET {{baseUrl}}/advertisements/favourite
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4
+
+###
+
+# попытка удалить обьявление из избранного
+DELETE {{baseUrl}}/advertisements/2/delete_from_favourite/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4
+
+###
+
+# попытка удалить обьявление не добавленное в избранное
+DELETE {{baseUrl}}/advertisements/5/delete_from_favourite/
+Content-Type: application/json
+Authorization: Token d496c5be145a7bdb7633cf7fd370f4a5be722fc4

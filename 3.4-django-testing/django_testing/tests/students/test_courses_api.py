@@ -28,12 +28,12 @@ def student_factory():
 @pytest.mark.django_db
 def test_get_course(client, course_factory):
     course = course_factory(_quantity=1)
-    url = reverse('courses-list')
+    course_id = course[0].id
+    url = reverse('courses-detail', args=[course_id])
     response = client.get(url)
     assert response.status_code == 200
     data = response.json()
-    assert len(data) == 1
-    assert data[0]['id'] == course[0].id
+    assert data['id'] == course_id
 
 
 @pytest.mark.django_db
@@ -84,8 +84,7 @@ def test_create_course(client):
     response = client.post(url, data=data)
     assert response.status_code == 201
     reply = response.json()
-    course = Course.objects.get(name=new_course_name)
-    assert reply['id'] == course.id
+    assert reply['name'] == new_course_name
 
 
 @pytest.mark.django_db
@@ -94,20 +93,19 @@ def test_amend_course(client, course_factory):
     amended_course_name = 'C++'
     data = {'name': amended_course_name}
     course_id = course[0].id
-    patch_url = reverse('courses-list') + f'{course_id}/'
+    patch_url = reverse('courses-detail', args=[course_id])
     response = client.patch(patch_url, data=data)
     reply = response.json()
     assert response.status_code == 200
-    course = Course.objects.get(name=amended_course_name)
-    assert reply['id'] == course.id
-    assert reply['name'] == course.name
+    assert reply['id'] == course_id
+    assert reply['name'] == amended_course_name
 
 
 @pytest.mark.django_db
 def test_delete_course(client, course_factory):
     course = course_factory(_quantity=1)
     course_id = course[0].id
-    delete_url = reverse('courses-list') + f'{course_id}/'
+    delete_url = reverse('courses-detail', args=[course_id])
     response = client.delete(delete_url)
     assert response.status_code == 204
     course = Course.objects.filter(id=course_id)
@@ -120,21 +118,18 @@ def test_with_specific_settings(settings):
     assert settings.MAX_STUDENTS_PER_COURSE
 
 
-@pytest.mark.parametrize(['students_quantity'], ((1,), (3,), (5,)))
+@pytest.mark.parametrize(['students_quantity', 'response_status_codes'],
+                         ((1, [201]),
+                          (3, [201, 201, 201]),
+                          (5, [201, 201, 201, 400, 400])))
 @pytest.mark.django_db
 def test_validate_students_quantity(client, course_factory, student_factory,
-                                    test_with_specific_settings, students_quantity):
+                                    test_with_specific_settings, students_quantity, response_status_codes):
     course = course_factory(_quantity=1)
     students = student_factory(_quantity=students_quantity)
     url = reverse('attendances-list')
-    for i, student in enumerate(students):
+    status_codes = []
+    for student in students:
         response = client.post(url, data={'course': course[0].id, 'student': student.id})
-        if i < settings.MAX_STUDENTS_PER_COURSE:
-            assert response.status_code == 201
-            data = response.json()
-            assert data['student'] == student.id
-            assert data['course'] == course[0].id
-        else:
-            assert response.status_code == 400
-            assert response.json() == {"non_field_errors":
-                                       [f"error: max {settings.MAX_STUDENTS_PER_COURSE} students per course"]}
+        status_codes.append(response.status_code)
+    assert status_codes == response_status_codes
